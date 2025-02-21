@@ -1,0 +1,137 @@
+{
+  "name": "tmux-like-editors",
+  "displayName": "Tmux-like Editors",
+  "description": "Allows you to navigate editors like in tmux",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "tmux-like-editors.toggleTmuxMode",
+        "title": "Toggle Tmux Mode"
+      },
+      {
+        "command": "tmux-like-editors.getPaneInfo",
+        "title": "Tmux Resize: Get Pane Info"
+      },
+      {
+        "command": "tmux-like-editors.resizeRight",
+        "title": "Tmux Resize: Resize Right"
+      },
+      {
+        "command": "tmux-like-editors.resizeLeft",
+        "title": "Tmux Resize: Resize Left"
+      },
+      {
+        "command": "tmux-like-editors.resizeDown",
+        "title": "Tmux Resize: Resize Down"
+      },
+      {
+        "command": "tmux-like-editors.resizeUp",
+        "title": "Tmux Resize: Resize Up"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "ctrl+l",
+        "command": "workbench.action.navigateRight"
+      },
+      {
+        "key": "ctrl+h",
+        "command": "workbench.action.navigateLeft"
+      },
+      {
+        "key": "ctrl+j",
+        "command": "workbench.action.navigateDown"
+      },
+      {
+        "key": "ctrl+k",
+        "command": "workbench.action.navigateUp"
+      },
+      {
+        "key": "ctrl+b",
+        "command": "tmux-like-editors.toggleTmuxMode"
+      },
+      {
+        "key": "shift+5",
+        "command": "runCommands",
+        "when": "tmuxMode",
+        "args": {
+          "commands": [
+            "workbench.action.newGroupRight",
+            "workbench.action.createTerminalEditor"
+          ]
+        }
+      },
+      {
+        "key": "shift+'",
+        "command": "runCommands",
+        "when": "tmuxMode",
+        "args": {
+          "commands": [
+            "workbench.action.newGroupBelow",
+            "workbench.action.createTerminalEditor"
+          ]
+        }
+      },
+      {
+        "key": "x",
+        "command": "workbench.action.closeActiveEditor"
+      },
+      {
+        "key": "alt+right",
+        "command": "tmux-like-editors.resizeRight",
+        "when": "tmuxMode"
+      },
+      {
+        "key": "alt+left",
+        "command": "tmux-like-editors.resizeLeft",
+        "when": "tmuxMode"
+      },
+      {
+        "key": "alt+down",
+        "command": "tmux-like-editors.resizeDown",
+        "when": "tmuxMode"
+      },
+      {
+        "key": "alt+up",
+        "command": "tmux-like-editors.resizeUp",
+        "when": "tmuxMode"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.97.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "eslint": "^9.19.0",
+    "esbuild": "^0.24.2",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.7.3",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1"
+  }
+}
