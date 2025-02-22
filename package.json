@@ -37,6 +37,18 @@
       {
         "command": "tmux-pane-editors.navigate",
         "title": "Tmux Pane Editors: Navigate"
+      },
+      {
+        "command": "tmux-pane-editors.showPaneNumbers",
+        "title": "Tmux Pane Editors: Show Pane Numbers"
+      },
+      {
+        "command": "tmux-pane-editors.focus",
+        "title": "Tmux Pane Editors: Focus"
+      },
+      {
+        "command": "tmux-pane-editors.swap",
+        "title": "Tmux Pane Editors: Swap"
       }
     ],
     "keybindings": [
@@ -59,6 +71,18 @@
         "key": "ctrl+b up",
         "command": "tmux-pane-editors.navigate",
         "args": "up"
+      },
+      {
+        "key": "ctrl+b o",
+        "command": "workbench.action.nextEditor"
+      },
+      {
+        "key": "ctrl+b ;",
+        "command": "workbench.action.previousEditor"
+      },
+      {
+        "key": "ctrl+b q",
+        "command": "tmux-pane-editors.showPaneNumbers"
       },
       {
         "key": "ctrl+b shift+5",
@@ -115,7 +139,63 @@
         "command": "tmux-pane-editors.resize",
         "args": "up", 
         "when": "tmuxMode"
+      },
+      {
+        "key": "ctrl+b 1",
+        "command": "tmux-pane-editors.focus",
+        "args": "1"
+      },
+      {
+        "key": "ctrl+b 2",
+        "command": "tmux-pane-editors.focus",
+        "args": "2"
+      },
+      {
+        "key": "ctrl+b 3",
+        "command": "tmux-pane-editors.focus",
+        "args": "3"
+      },
+      {
+        "key": "ctrl+b 4",
+        "command": "tmux-pane-editors.focus",
+        "args": "4"
+      },
+      {
+        "key": "ctrl+b 5",
+        "command": "tmux-pane-editors.focus",
+        "args": "5"
+      },
+      {
+        "key": "ctrl+b 6",
+        "command": "tmux-pane-editors.focus",
+        "args": "6"
+      },
+      {
+        "key": "ctrl+b 7",
+        "command": "tmux-pane-editors.focus",
+        "args": "7"
+      },
+      {
+        "key": "ctrl+b 8",
+        "command": "tmux-pane-editors.focus",
+        "args": "8"
+      },
+      {
+        "key": "ctrl+b 9",
+        "command": "tmux-pane-editors.focus",
+        "args": "9"
+      },
+      {
+        "key": "ctrl+b shift+]",
+        "command": "tmux-pane-editors.swap",
+        "args": "right"
+      },
+      {
+        "key": "ctrl+b shift+[",
+        "command": "tmux-pane-editors.swap",
+        "args": "left"
       }
+
     ]
   },
   "scripts": {

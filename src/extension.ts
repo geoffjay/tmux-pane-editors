@@ -30,6 +30,52 @@ function flattenGroups(groups: EditorGroup[], path: number[] = []): PaneInfo[] {
   return panes;
 }
 
+// Modified showOverlay accepts a viewColumn so we can open an overlay in each pane.
+function showOverlay(number: number, viewColumn: vscode.ViewColumn) {
+  const panel = vscode.window.createWebviewPanel(
+    `paneNumberOverlay${number}`, // Unique identifier for each pane's overlay
+    "Pane Number", // Title of the panel
+    viewColumn, // Open in the given view column (i.e. pane)
+    {
+      enableScripts: true,
+      retainContextWhenHidden: false,
+    }
+  );
+
+  panel.webview.html = `
+    <html>
+      <head>
+        <style>
+          body {
+            margin: 0;
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+          }
+          .number {
+            font-size: 72px;
+            color: blue;
+            font-weight: bold;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="number">${number}</div>
+      </body>
+    </html>
+  `;
+
+  // Reveal the panel without stealing focus.
+  panel.reveal(viewColumn, true);
+
+  // Dispose of the overlay after 2 seconds.
+  setTimeout(() => {
+    panel.dispose();
+  }, 1000);
+}
+
 // Helper: Given a path, retrieve the groups array at that level
 function getGroupsAtPath(
   layoutGroups: EditorGroup[],
@@ -137,7 +183,6 @@ export function activate(context: vscode.ExtensionContext) {
     () => {
       vscode.commands.executeCommand("workbench.action.newGroupRight");
       vscode.commands.executeCommand("workbench.action.createTerminalEditor");
-      setTmuxMode(false);
     }
   );
 
@@ -146,7 +191,6 @@ export function activate(context: vscode.ExtensionContext) {
     () => {
       vscode.commands.executeCommand("workbench.action.newGroupBelow");
       vscode.commands.executeCommand("workbench.action.createTerminalEditor");
-      setTmuxMode(false);
     }
   );
 
@@ -154,13 +198,76 @@ export function activate(context: vscode.ExtensionContext) {
     "tmux-pane-editors.closeActiveEditor",
     async () => {
       vscode.commands.executeCommand("workbench.action.closeActiveEditor");
-      setTmuxMode(false);
+    }
+  );
+
+  let swap = vscode.commands.registerCommand(
+    "tmux-pane-editors.swap",
+    async (direction: "left" | "right") => {
+      vscode.commands.executeCommand(
+        "workbench.action.moveActiveEditorGroup" +
+          direction.charAt(0).toUpperCase() +
+          direction.slice(1)
+      );
+    }
+  );
+
+  let focus = vscode.commands.registerCommand(
+    "tmux-pane-editors.focus",
+    async (paneNumber: any) => {
+      switch (Number(paneNumber)) {
+        case 1:
+          vscode.commands.executeCommand(
+            "workbench.action.focusFirstEditorGroup"
+          );
+          break;
+        case 2:
+          vscode.commands.executeCommand(
+            "workbench.action.focusSecondEditorGroup"
+          );
+          break;
+        case 3:
+          vscode.commands.executeCommand(
+            "workbench.action.focusThirdEditorGroup"
+          );
+          break;
+        case 4:
+          vscode.commands.executeCommand(
+            "workbench.action.focusFourthEditorGroup"
+          );
+          break;
+        case 5:
+          vscode.commands.executeCommand(
+            "workbench.action.focusFifthEditorGroup"
+          );
+          break;
+        case 6:
+          vscode.commands.executeCommand(
+            "workbench.action.focusSixthEditorGroup"
+          );
+          break;
+        case 7:
+          vscode.commands.executeCommand(
+            "workbench.action.focusSeventhEditorGroup"
+          );
+          break;
+        case 8:
+          vscode.commands.executeCommand(
+            "workbench.action.focusEighthEditorGroup"
+          );
+          break;
+        case 9:
+          vscode.commands.executeCommand(
+            "workbench.action.focusNinthEditorGroup"
+          );
+          break;
+      }
     }
   );
 
   let navigate = vscode.commands.registerCommand(
     "tmux-pane-editors.navigate",
-    async (direction: 'up' | 'down' | 'left' | 'right') => {
+    async (direction: "up" | "down" | "left" | "right") => {
       if (tmuxMode) {
         resetTmuxTimeout();
       } else {
@@ -183,9 +290,22 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
+  // Modified command to show overlay in every pane.
+  let showPaneNumbers = vscode.commands.registerCommand(
+    "tmux-pane-editors.showPaneNumbers",
+    () => {
+      const tabGroups = vscode.window.tabGroups.all;
+      // For each tab group (which represents an editor pane, including terminal editors)
+      tabGroups.forEach((group, index) => {
+        // Pass the pane number (index + 1) and the view column for that group.
+        showOverlay(index + 1, group.viewColumn);
+      });
+    }
+  );
+
   let resize = vscode.commands.registerCommand(
     "tmux-pane-editors.resize",
-    async (direction: 'up' | 'down' | 'left' | 'right') => {
+    async (direction: "up" | "down" | "left" | "right") => {
       if (tmuxMode) {
         resetTmuxTimeout();
       } else {
@@ -199,38 +319,50 @@ export function activate(context: vscode.ExtensionContext) {
       if (!activePath) {
         return;
       }
-      const layout = (await vscode.commands.executeCommand("vscode.getEditorLayout")) as EditorLayout;
+      const layout = (await vscode.commands.executeCommand(
+        "vscode.getEditorLayout"
+      )) as EditorLayout;
       let commandToRun: string | null = null;
 
       if (direction === "up" || direction === "down") {
-        const verticalAction = getVerticalResizeAction(activePath, layout.groups);
+        const verticalAction = getVerticalResizeAction(
+          activePath,
+          layout.groups
+        );
         if (!verticalAction) {
           return;
         }
         // For "down", use the natural action; for "up", invert it.
         if (direction === "down") {
-          commandToRun = verticalAction === "expand"
-            ? "workbench.action.increaseViewHeight"
-            : "workbench.action.decreaseViewHeight";
+          commandToRun =
+            verticalAction === "expand"
+              ? "workbench.action.increaseViewHeight"
+              : "workbench.action.decreaseViewHeight";
         } else {
-          commandToRun = verticalAction === "expand"
-            ? "workbench.action.decreaseViewHeight"
-            : "workbench.action.increaseViewHeight";
+          commandToRun =
+            verticalAction === "expand"
+              ? "workbench.action.decreaseViewHeight"
+              : "workbench.action.increaseViewHeight";
         }
       } else if (direction === "left" || direction === "right") {
-        const horizontalAction = getHorizontalResizeAction(activePath, layout.groups);
+        const horizontalAction = getHorizontalResizeAction(
+          activePath,
+          layout.groups
+        );
         if (!horizontalAction) {
           return;
         }
         // For "right", use the natural action; for "left", invert it.
         if (direction === "right") {
-          commandToRun = horizontalAction === "expand"
-            ? "workbench.action.increaseViewWidth"
-            : "workbench.action.decreaseViewWidth";
+          commandToRun =
+            horizontalAction === "expand"
+              ? "workbench.action.increaseViewWidth"
+              : "workbench.action.decreaseViewWidth";
         } else {
-          commandToRun = horizontalAction === "expand"
-            ? "workbench.action.decreaseViewWidth"
-            : "workbench.action.increaseViewWidth";
+          commandToRun =
+            horizontalAction === "expand"
+              ? "workbench.action.decreaseViewWidth"
+              : "workbench.action.increaseViewWidth";
         }
       }
       if (commandToRun) {
@@ -238,13 +370,16 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }
   );
-  
+
   context.subscriptions.push(
     splitEditorRight,
     splitEditorDown,
     closeActiveEditor,
     navigate,
-    resize
+    resize,
+    focus,
+    swap,
+    showPaneNumbers
   );
 }
 
