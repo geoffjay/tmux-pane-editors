@@ -2,7 +2,7 @@
   "name": "tmux-pane-editors",
   "displayName": "TPE: tmux pane editors",
   "description": "Navigate editors like tmux panes.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "icon": "logo.png",
   "engines": {
     "vscode": "^1.97.0"
