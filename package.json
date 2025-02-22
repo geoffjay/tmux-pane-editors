@@ -1,6 +1,6 @@
 {
-  "name": "tmux-like-editors",
-  "displayName": "Tmux-like Editors",
+  "name": "tmux-pane-editors",
+  "displayName": "tmux-like editor panes",
   "description": "Allows you to navigate editors like in tmux",
   "version": "0.0.1",
   "engines": {
@@ -11,98 +11,109 @@
   ],
   "activationEvents": [],
   "main": "./dist/extension.js",
+  "publisher": "trombiano1",
   "contributes": {
     "commands": [
       {
-        "command": "tmux-like-editors.toggleTmuxMode",
-        "title": "Toggle Tmux Mode"
+        "command": "tmux-pane-editors.getPaneInfo",
+        "title": "Tmux Pane Editors: Get Pane Info"
       },
       {
-        "command": "tmux-like-editors.getPaneInfo",
-        "title": "Tmux Resize: Get Pane Info"
+        "command": "tmux-pane-editors.splitEditorRight",
+        "title": "Tmux Pane Editors: Split Editor Right"
       },
       {
-        "command": "tmux-like-editors.resizeRight",
-        "title": "Tmux Resize: Resize Right"
+        "command": "tmux-pane-editors.splitEditorDown",
+        "title": "Tmux Pane Editors: Split Editor Down"
       },
       {
-        "command": "tmux-like-editors.resizeLeft",
-        "title": "Tmux Resize: Resize Left"
+        "command": "tmux-pane-editors.closeActiveEditor",
+        "title": "Tmux Pane Editors: Close Active Editor"
       },
       {
-        "command": "tmux-like-editors.resizeDown",
-        "title": "Tmux Resize: Resize Down"
+        "command": "tmux-pane-editors.resize",
+        "title": "Tmux Pane Editors: Resize"
       },
       {
-        "command": "tmux-like-editors.resizeUp",
-        "title": "Tmux Resize: Resize Up"
+        "command": "tmux-pane-editors.navigate",
+        "title": "Tmux Pane Editors: Navigate"
       }
     ],
     "keybindings": [
       {
-        "key": "ctrl+l",
-        "command": "workbench.action.navigateRight"
+        "key": "ctrl+b right",
+        "command": "tmux-pane-editors.navigate",
+        "args": "right"
+      }, 
+      {
+        "key": "ctrl+b left",
+        "command": "tmux-pane-editors.navigate",
+        "args": "left"
       },
       {
-        "key": "ctrl+h",
-        "command": "workbench.action.navigateLeft"
+        "key": "ctrl+b down",
+        "command": "tmux-pane-editors.navigate",
+        "args": "down"
       },
       {
-        "key": "ctrl+j",
-        "command": "workbench.action.navigateDown"
+        "key": "ctrl+b up",
+        "command": "tmux-pane-editors.navigate",
+        "args": "up"
       },
       {
-        "key": "ctrl+k",
-        "command": "workbench.action.navigateUp"
+        "key": "ctrl+b shift+5",
+        "command": "tmux-pane-editors.splitEditorRight"
       },
       {
-        "key": "ctrl+b",
-        "command": "tmux-like-editors.toggleTmuxMode"
+        "key": "ctrl+b shift+'",
+        "command": "tmux-pane-editors.splitEditorDown"
       },
       {
-        "key": "shift+5",
-        "command": "runCommands",
-        "when": "tmuxMode",
-        "args": {
-          "commands": [
-            "workbench.action.newGroupRight",
-            "workbench.action.createTerminalEditor"
-          ]
-        }
+        "key": "ctrl+b x",
+        "command": "tmux-pane-editors.closeActiveEditor"
       },
       {
-        "key": "shift+'",
-        "command": "runCommands",
-        "when": "tmuxMode",
-        "args": {
-          "commands": [
-            "workbench.action.newGroupBelow",
-            "workbench.action.createTerminalEditor"
-          ]
-        }
-      },
-      {
-        "key": "x",
-        "command": "workbench.action.closeActiveEditor"
+        "key": "ctrl+b alt+right",
+        "command": "tmux-pane-editors.resize",
+        "args": "right"
       },
       {
         "key": "alt+right",
-        "command": "tmux-like-editors.resizeRight",
+        "command": "tmux-pane-editors.resize",
+        "args": "right",
         "when": "tmuxMode"
+      },
+      {
+        "key": "ctrl+b alt+left",
+        "command": "tmux-pane-editors.resize",
+        "args": "left"
       },
       {
         "key": "alt+left",
-        "command": "tmux-like-editors.resizeLeft",
+        "command": "tmux-pane-editors.resize",
+        "args": "left",
         "when": "tmuxMode"
+      },
+      {
+        "key": "ctrl+b alt+down",
+        "command": "tmux-pane-editors.resize",
+        "args": "down"
       },
       {
         "key": "alt+down",
-        "command": "tmux-like-editors.resizeDown",
+        "command": "tmux-pane-editors.resize",
+        "args": "down",
         "when": "tmuxMode"
       },
       {
+        "key": "ctrl+b alt+up",
+        "command": "tmux-pane-editors.resize",
+        "args": "up"
+      },
+      {
         "key": "alt+up",
-        "command": "tmux-like-editors.resizeUp",
+        "command": "tmux-pane-editors.resize",
+        "args": "up", 
         "when": "tmuxMode"
       }
     ]
@@ -136,6 +147,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/massanf/tmux-like-editors"
+    "url": "https://github.com/massanf/tmux-pane-editors"
   }
 }
