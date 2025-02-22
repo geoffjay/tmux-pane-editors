@@ -1,7 +1,7 @@
 {
   "name": "tmux-pane-editors",
-  "displayName": "tmux-like editor panes",
-  "description": "Allows you to navigate editors like in tmux",
+  "displayName": "TPE: tmux pane editors",
+  "description": "Navigate editors like tmux panes.",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.97.0"

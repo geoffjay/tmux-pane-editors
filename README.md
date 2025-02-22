@@ -1,23 +1,54 @@
-# Tmux-Like Pane Resizing for VS Code
+# TPE: tmux pane editors
+
+![](tpe.gif)
 
 ## Overview
-This VS Code extension brings **tmux-like pane behavior** to VSCode. 
+The idea is to treat each editor as if they were tmux panes.
 
-## Features
-- **Smart pane resizing:**
-  - Leader key (`Ctrl+B`) activation for resizing mode.
-  - Automatically determines whether to increase/decrease width or height.
+### Features
+Supports most tmux keybindings related to panes including but not limited to:
+  - Pane resizing
+  - Displaying pane numbers
+  - Sticky leader keys
 
-## Usage
-### Keybindings
-| Key Combination | Action |
-|-----------------|--------|
-| `Ctrl+B`       | Enter "tmux mode" |
-| `Alt+Right`    | Increase pane width |
-| `Alt+Left`     | Decrease pane width |
-| `Alt+Down`     | Increase pane height |
-| `Alt+Up`       | Decrease pane height |
-| `Escape`       | Exit "tmux mode" |
+## Setup
+Paste this into your `config.json` so that the terminals can avoid capturing commands:
+```
+"terminal.integrated.commandsToSkipShell": [
+  "tmux-pane-editors.toggleTmuxMode",
+  "tmux-pane-editors.navigate",
+  "tmux-pane-editors.resize",
+  "workbench.action.closeActiveEditor"
+]
+```
+
+## Keybindings
+|    Keybinding     |                Command               |
+|:------------------|:-------------------------------------|
+| `Ctrl+b arrow`<sup>(1)</sup>    | Navigate editors                     |
+| `Ctrl+b o`        | Next editor                          |
+| `Ctrl+b ;`        | Previous editor                      |
+| `Ctrl+b q`        | Show pane numbers                    |
+| `Ctrl+b %`        | Split editor right                   |
+| `Ctrl+b '`        | Split editor down                    |
+| `Ctrl+b x`        | Close active editor                  |
+| `Ctrl+b Alt+arrow`<sup>(2)</sup>| Resize editor                        |
+| `Ctrl+b [1-9]`    | Focus on a specific pane             |
+| `Ctrl+b }`        | Swap editor to the right             |
+| `Ctrl+b {`        | Swap editor to the left              |
+
+(1) Does _not_ support sticky leader keys due to limitations for extensions in VSCode. If you want to spam it please remap `tmux-pane-editors.navigate` to other keybindings.
+
+(2) _Does_ support sticky leader keys.
+
+# Commands
+This extension provides these new commands that can be executed via the command palette. You can also remap these to other keybindings.
+- Tmux Pane Editors: Close Active Editor
+- Tmux Pane Editors: Resize
+- Tmux Pane Editors: Navigate
+- Tmux Pane Editors: Show Pane Numbers
+- Tmux Pane Editors: Focus
+- Tmux Pane Editors: Swap
 
 ## License
 This extension is licensed under the **MIT License**.
