@@ -16,12 +16,10 @@ suite('Extension Test Suite', () => {
 	});
 
 	test('Extension can be loaded', async () => {
-		// This test verifies that the extension loads properly in the current version
 		const extension = vscode.extensions.getExtension("trombiano1.tmux-pane-editors");
 		assert.notStrictEqual(extension, undefined, "Extension should be present");
 		
 		if (extension) {
-			// Check if extension is active, activate if not
 			if (!extension.isActive) {
 				await extension.activate();
 			}
@@ -30,10 +28,8 @@ suite('Extension Test Suite', () => {
 	});
 
 	test('Commands are registered', async () => {
-		// Get all available commands
 		const commands = await vscode.commands.getCommands(true);
 		
-		// List of commands our extension should register
 		const expectedCommands = [
 			// "tmux-pane-editors.getPaneInfo", // This command isn't actually implemented
 			"tmux-pane-editors.splitEditorRight",
@@ -46,7 +42,6 @@ suite('Extension Test Suite', () => {
 			"tmux-pane-editors.swap"
 		];
 		
-		// Check if all expected commands are registered
 		for (const cmd of expectedCommands) {
 			assert.strictEqual(
 				commands.includes(cmd), 
