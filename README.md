@@ -66,7 +66,7 @@ This extension includes tests to verify compatibility with different VS Code ver
    ```
 
 These tests will verify that the extension installs and functions correctly on multiple VS Code versions, including:
-- The minimum supported version (1.97.0)
+- The minimum supported version (1.96.0)
 - Newer releases
 - The latest Insiders build
 
