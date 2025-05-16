@@ -5,7 +5,7 @@
   "version": "0.0.2",
   "icon": "logo.png",
   "engines": {
-    "vscode": "^1.97.0"
+    "vscode": "^1.96.0"
   },
   "categories": [
     "Other"
@@ -57,7 +57,7 @@
         "key": "ctrl+b right",
         "command": "tmux-pane-editors.navigate",
         "args": "right"
-      }, 
+      },
       {
         "key": "ctrl+b left",
         "command": "tmux-pane-editors.navigate",
@@ -138,7 +138,7 @@
       {
         "key": "alt+up",
         "command": "tmux-pane-editors.resize",
-        "args": "up", 
+        "args": "up",
         "when": "tmuxMode"
       },
       {
@@ -196,7 +196,6 @@
         "command": "tmux-pane-editors.swap",
         "args": "left"
       }
-
     ]
   },
   "scripts": {
@@ -211,20 +210,23 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "test:compatibility": "npm run compile-tests && node out/test/version-compatibility.test.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.97.0",
+    "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.96.0",
     "@typescript-eslint/eslint-plugin": "^8.22.0",
     "@typescript-eslint/parser": "^8.22.0",
-    "eslint": "^9.19.0",
-    "esbuild": "^0.24.2",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.7.3",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.19.0",
+    "glob": "^10.3.10",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.7.3"
   },
   "repository": {
     "type": "git",

@@ -50,5 +50,27 @@ This extension provides these new commands that can be executed via the command 
 - Tmux Pane Editors: Focus
 - Tmux Pane Editors: Swap
 
+## Development
+
+### Testing Version Compatibility
+This extension includes tests to verify compatibility with different VS Code versions. To run these tests:
+
+1. Compile the test code:
+   ```
+   npm run compile-tests
+   ```
+
+2. Run the version compatibility tests:
+   ```
+   npm run test:compatibility
+   ```
+
+These tests will verify that the extension installs and functions correctly on multiple VS Code versions, including:
+- The minimum supported version (1.97.0)
+- Newer releases
+- The latest Insiders build
+
+The test results will show whether the extension is compatible with each tested version.
+
 ## License
 This extension is licensed under the **MIT License**.
